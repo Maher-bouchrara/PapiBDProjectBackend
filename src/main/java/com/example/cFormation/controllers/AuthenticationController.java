@@ -1,14 +1,19 @@
 package com.example.cFormation.controllers;
 
 import com.example.cFormation.models.Role;
+import com.example.cFormation.models.LoginRequest;
 import com.example.cFormation.security.JwtUtil;
 import com.example.cFormation.models.Utilisateur;
 import com.example.cFormation.services.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:8094")
 @RestController
 @RequestMapping("/authenticate")
 public class AuthenticationController {
@@ -21,17 +26,19 @@ public class AuthenticationController {
 
     // Endpoint pour authentifier l'utilisateur et générer un token JWT
     @PostMapping
-    public String authenticate(@RequestParam String login, @RequestParam String motDePasse) {
+    public ResponseEntity<Map<String, String>> authenticate(@RequestBody LoginRequest request) {
         Optional<Utilisateur> utilisateur = utilisateurService.getAllUtilisateurs().stream()
-                .filter(u -> u.getLogin().equals(login) && u.getMotdePasse().equals(motDePasse))
+                .filter(u -> u.getLogin().equals(request.getLogin()) && u.getMotdePasse().equals(request.getMotDePasse()))
                 .findFirst();
 
-        // Si les identifiants sont valides, générer un token JWT
         if (utilisateur.isPresent()) {
             Utilisateur user = utilisateur.get();
-            return jwtUtil.generateToken(user);
+            String token =  jwtUtil.generateToken(user);
+            return ResponseEntity.ok(Collections.singletonMap("token", token));
+
         } else {
-            throw new RuntimeException("Identifiants invalides");  // Si les identifiants sont incorrects
+            throw new RuntimeException("Identifiants invalides");
         }
     }
+
 }
