@@ -31,4 +31,4 @@ Ce projet est une partie back-end d'un site web de formation en ligne. Il inclut
 1. Clonez ce repository sur votre machine locale :
 
    ```bash
-   git clone https://github.com/username/repository-name.git
+   git clone https://github.com/Maher-bouchrara/PapiBDProjectBackend.git
