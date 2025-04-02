@@ -25,8 +25,8 @@ Ce projet est une partie back-end d'un site web de formation en ligne. Il inclut
 ## Prérequis
 
 - Java 11 ou version supérieure.
-- Spring Boot.
-- Base de données relationnelle (par exemple, MySQL ou PostgreSQL).
+- Spring Boot Security.
+- Base de données relationnelle (MySQL).
 - Bibliothèque JWT pour la gestion des tokens.
 
 ## Installation
