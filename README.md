@@ -15,9 +15,12 @@ Ce projet est une partie back-end d'un site web de formation en ligne. Il inclut
   - Accès aux détails des cours pour les étudiants et formateurs.
 
 - **Gestion des utilisateurs :**
-  - Gestion des étudiants : ajout, mise à jour et suppression des profils étudiants.
   - Gestion des formateurs : ajout, mise à jour et suppression des profils formateurs.
   - Gestion des participants : ajout des participants à un cours et suivi de leur progression.
+  - Gestion des formations : ajout, mise à jour et suppression des formations.
+  - Génération des certificas.
+  - Envoie des mails automatiques pour les participants afin de recevoir leurs credentials.
+  - Génération des statistiques
 
 ## Prérequis
 
