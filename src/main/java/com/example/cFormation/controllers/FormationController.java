@@ -25,21 +25,24 @@ public class FormationController {
 
     // Création avec gestion des relations
     @PostMapping
-    public ResponseEntity<Formation> createFormation(
+    public ResponseEntity<Formation> createFormation1(
             @RequestBody Formation formation,
-            @RequestParam int formateurId,
-            @RequestParam int domaineId) {
+            @RequestParam(name = "formateurId") int formateurId,
+            @RequestParam(name = "domaineId") int domaineId) {
 
         Formation savedFormation = formationService.createFormation(formation, formateurId, domaineId);
         return new ResponseEntity<>(savedFormation, HttpStatus.CREATED);
     }
 
     // Récupération par ID
+    
+    
     @GetMapping("/{id}")
-    public ResponseEntity<FormationDTO> getFormationById(@PathVariable int id) {
+    public ResponseEntity<FormationDTO> getFormationById(@RequestParam("id") int id) {
         FormationDTO formationDTO = formationService.getFormationDTOById(id);
         return ResponseEntity.ok(formationDTO);
     }
+
 
     // Liste complète
     @GetMapping
@@ -71,17 +74,18 @@ public class FormationController {
 
     // Récupération par Domaine
     @GetMapping("/by-domaine/{domaineId}")
-    public List<Formation> getFormationsByDomaine(@PathVariable int domaineId) {
+    public List<Formation> getFormationsByDomaine(@RequestParam("id") int domaineId) {
         return formationService.getFormationsByDomaineId(domaineId);
     }
     @PostMapping("/{formationId}/participants/{participantId}")
     public ResponseEntity<Void> addParticipantToFormation(
-            @PathVariable int formationId,
-            @PathVariable int participantId) {
+            @PathVariable("formationId") int formationId,
+            @PathVariable("participantId") int participantId) {
 
         formationService.addParticipantToFormation(formationId, participantId);
         return ResponseEntity.ok().build();
     }
+
 
     @DeleteMapping("/{formationId}/participants/{participantId}")
     public ResponseEntity<Void> removeParticipantFromFormation(
