@@ -21,7 +21,7 @@ public class EmailService {
                 MimeMessage mimeMessage = mailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 
-                // Assurez-vous d'utiliser une adresse e-mail valide pour l'expéditeur
+                //adresse e-mail  de l'expéditeur + changement du nom 
                 helper.setFrom(new InternetAddress("imenmiladi21@gmail.com", "Akwa centre de formation"));
 
                 helper.setTo(mail);
