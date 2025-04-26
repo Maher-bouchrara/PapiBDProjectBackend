@@ -27,8 +27,8 @@ public class ParticipantController {
     @PostMapping
     public ResponseEntity<Participant> createParticipant(
             @RequestBody Participant participant,
-            @RequestParam int profileId,
-            @RequestParam int structureId) {
+            @RequestParam(name = "profileId") int profileId,
+            @RequestParam(name = "structureId") int structureId) {
 
         Participant savedParticipant = participantService.createParticipant(participant, profileId, structureId);
         return new ResponseEntity<>(savedParticipant, HttpStatus.CREATED);

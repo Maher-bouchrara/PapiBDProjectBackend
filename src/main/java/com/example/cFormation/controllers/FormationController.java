@@ -98,7 +98,7 @@ public class FormationController {
 
     @GetMapping("/{formationId}/participants")
     public ResponseEntity<Set<Participant>> getFormationParticipants(
-            @PathVariable int formationId) {
+    		@PathVariable("formationId") int formationId) {
 
         return ResponseEntity.ok(formationService.getFormationParticipants(formationId));
     }

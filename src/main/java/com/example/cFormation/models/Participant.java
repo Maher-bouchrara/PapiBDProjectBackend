@@ -1,12 +1,15 @@
 package com.example.cFormation.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -15,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EqualsAndHashCode(exclude = {"formations"})
-public class Participant {
+public class Participant implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -34,11 +37,12 @@ public class Participant {
     private Structure structure;
 
     @ManyToMany
-    @JsonBackReference
+    
     @JoinTable(
             name = "participant_formation",
             joinColumns = @JoinColumn(name = "participant_id"),
             inverseJoinColumns = @JoinColumn(name = "formation_id"))
+    @JsonIgnore
     private Set<Formation> formations;
 
     @Transient
