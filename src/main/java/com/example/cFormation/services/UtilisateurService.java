@@ -50,14 +50,17 @@ public class UtilisateurService {
         return utilisateurRepository.save(utilisateur);
     }
 
-    public Utilisateur updateUtilisateur(int id, Utilisateur utilisateurDetails) {
+    public Utilisateur updateUtilisateur(int id, Utilisateur utilisateurDetails , int roleId) {
         Utilisateur utilisateur = utilisateurRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec l'ID : " + id));
 
-        utilisateur.setLogin(utilisateur.getLogin());
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new RuntimeException("Role non trouvé"));
+
+        utilisateur.setLogin(utilisateurDetails.getLogin());
         utilisateur.setMotdePasse(utilisateurDetails.getMotdePasse());
         utilisateur.setEmail(utilisateurDetails.getEmail());
-        utilisateur.setIdRole(utilisateurDetails.getIdRole());
+        utilisateur.setRole(role);
 
         return utilisateurRepository.save(utilisateur);
     }
