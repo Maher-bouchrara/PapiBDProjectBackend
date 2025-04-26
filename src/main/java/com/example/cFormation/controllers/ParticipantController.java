@@ -56,15 +56,17 @@ public class ParticipantController {
     // Mise à jour
     @PutMapping("/{id}")
     public ResponseEntity<Participant> updateParticipant(
-            @PathVariable int id,
+            @PathVariable("id") int id,
             @RequestBody Participant participantDetails) {
 
-        return ResponseEntity.ok(participantService.updateParticipant(id, participantDetails));
+        Participant updatedParticipant = participantService.updateParticipant(id, participantDetails);
+        return ResponseEntity.ok(updatedParticipant);
     }
+
 
     // Suppression
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteParticipant(@PathVariable int id) {
+    public ResponseEntity<Void> deleteParticipant(@PathVariable("id") int id) {
         participantService.deleteParticipant(id);
         return ResponseEntity.noContent().build();
     }
