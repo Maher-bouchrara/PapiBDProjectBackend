@@ -59,19 +59,31 @@ public class ParticipantService {
 
         return participantRepository.save(participant);
     }
-
     public Participant updateParticipant(int id, Participant participantDetails) {
+        // Recherche du participant à mettre à jour
         Participant participant = participantRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Participant non trouvé avec l'ID : " + id));
 
+        // Mise à jour des informations de base du participant
         participant.setNom(participantDetails.getNom());
         participant.setPrenom(participantDetails.getPrenom());
         participant.setEmail(participantDetails.getEmail());
         participant.setTel(participantDetails.getTel());
-        participant.setIdStructure(participantDetails.getIdStructure());
 
+        // Mise à jour du profile (ici on suppose qu'il s'agit d'un objet avec un ID)
+        Profile profile = profileRepository.findById(participantDetails.getProfile().getId())
+                .orElseThrow(() -> new RuntimeException("Profile non trouvé avec l'ID : " + participantDetails.getProfile().getId()));
+        participant.setProfile(profile);
+
+        // Mise à jour de la structure, en récupérant la structure existante à partir de son ID
+        Structure structure = structureRepository.findById(participantDetails.getStructure().getId())
+                .orElseThrow(() -> new RuntimeException("Structure non trouvée avec l'ID : " + participantDetails.getStructure().getId()));
+        participant.setStructure(structure);
+
+        // Sauvegarde du participant avec les nouvelles informations
         return participantRepository.save(participant);
     }
+
 
     public void deleteParticipant(int id) {
         participantRepository.deleteById(id);
