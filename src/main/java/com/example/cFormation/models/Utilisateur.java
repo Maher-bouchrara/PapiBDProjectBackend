@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 public class Utilisateur {
-    @Id
+            @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
