@@ -1,6 +1,7 @@
 package com.example.cFormation.controllers;
 
 import com.example.cFormation.dto.FormateurDTO;
+import com.example.cFormation.models.Employeur;
 import com.example.cFormation.models.Formateur;
 import com.example.cFormation.services.FormateurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +53,11 @@ public class FormateurController {
 
         return ResponseEntity.ok(formateurService.updateFormateur(id, formateurDetails));
     }
+    // Suppression
 
     // Suppression
     @DeleteMapping("/{id}")
+    @CrossOrigin
     public ResponseEntity<Void> deleteFormateur(@PathVariable int id) {
         formateurService.deleteFormateur(id);
         return ResponseEntity.noContent().build();
@@ -65,6 +68,9 @@ public class FormateurController {
     public List<Formateur> getFormateursByEmployeur(@PathVariable int employeurId) {  // Renommé
         return formateurService.getFormateursByEmployeurId(employeurId);  // Renommé
     }
-
+    @GetMapping("/employeurs")
+    public List<Employeur> getAllEmployeurs() {
+        return formateurService.getAllEmployeurs();
+    }
 
 }

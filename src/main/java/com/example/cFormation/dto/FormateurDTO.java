@@ -13,7 +13,7 @@ public class FormateurDTO {
     private String prenom;
     private String email;
     private String tel;
-
+    private String type;
     // Au lieu de l'objet complet, on ne garde que l'ID du profile
     private Integer employeurId;
 
