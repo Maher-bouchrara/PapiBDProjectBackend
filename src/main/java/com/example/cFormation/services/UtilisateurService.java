@@ -57,7 +57,7 @@ public class UtilisateurService {
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> new RuntimeException("Role non trouvé"));
 
-        utilisateur.setLogin(utilisateurDetails.getLogin());
+        utilisateur.setLogin(utilisateurDetails .getLogin());
         utilisateur.setMotdePasse(utilisateurDetails.getMotdePasse());
         utilisateur.setEmail(utilisateurDetails.getEmail());
         utilisateur.setRole(role);
