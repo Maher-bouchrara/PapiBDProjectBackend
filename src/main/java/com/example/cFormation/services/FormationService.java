@@ -1,6 +1,8 @@
 package com.example.cFormation.services;
 
+import com.example.cFormation.dto.DomaineBudgetMensuelDto;
 import com.example.cFormation.dto.FormationDTO;
+import com.example.cFormation.dto.DomainePourcentageDTO;
 import com.example.cFormation.exception.ResourceNotFoundException;
 import com.example.cFormation.mapper.FormationMapper;
 import com.example.cFormation.models.Domaine;
@@ -12,11 +14,12 @@ import com.example.cFormation.repositories.FormateurRepository;
 import com.example.cFormation.repositories.FormationRepository;
 import com.example.cFormation.repositories.ParticipantRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FormationService {
@@ -134,4 +137,48 @@ public class FormationService {
                 .orElseThrow(() -> new RuntimeException("Formation non trouvée"));
         return formation.getParticipants();
     }
+    public long countFormations() {
+        return formationRepository.count();
+    }
+
+    public List<DomainePourcentageDTO> getFormationsPourcentageByDomaine() {
+        List<Formation> formations = formationRepository.findAll();
+
+        if (formations.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Filtre + regroupement en une seule opération
+        Map<String, Long> countByDomaine = formations.stream()
+                .filter(f -> f.getDomaine() != null && f.getDomaine().getLibelle() != null)
+                .collect(Collectors.groupingBy(
+                        f -> f.getDomaine().getLibelle(),
+                        Collectors.counting()
+                ));
+
+        long total = countByDomaine.values().stream().mapToLong(Long::longValue).sum();
+
+        return countByDomaine.entrySet().stream()
+                .map(e -> new DomainePourcentageDTO(
+                        e.getKey(),
+                        Math.round((e.getValue() * 100.0 / total) * 100) / 100.0
+                ))
+                .sorted(Comparator.comparingDouble(DomainePourcentageDTO::getPercentage).reversed())
+                .collect(Collectors.toList());
+    }
+    public List<DomaineBudgetMensuelDto> getBudgetsMoyensParMoisTop3Domaines() {
+        // Get the results using the native query
+        List<Object[]> results = formationRepository.findTop3DomainesBudgetMensuel();
+
+        // Map to DTO with proper type handling
+        return results.stream()
+                .map(result -> new DomaineBudgetMensuelDto(
+                        (String) result[0], // domaine
+                        ((Number) result[1]).intValue(), // convert month safely from any Number type to int
+                        ((Number) result[2]).doubleValue(), // convert budget safely from any Number type to double
+                        ((Number) result[3]).intValue() // convert count safely from any Number type to int
+                ))
+                .collect(Collectors.toList());
+    }
+
 }

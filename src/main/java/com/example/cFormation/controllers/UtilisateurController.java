@@ -66,6 +66,10 @@ public class UtilisateurController {
             return utilisateurService.getUtilisateursByRoleId(roleId);
         }
 
-
+    @GetMapping("/count")
+    public ResponseEntity<Long> getUtilisateursCount() {
+        long count = utilisateurService.countUtilisateurs();
+        return ResponseEntity.ok(count);
+    }
     }
 

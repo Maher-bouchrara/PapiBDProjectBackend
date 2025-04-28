@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EqualsAndHashCode(exclude = {"formations"})
-public class Participant implements Serializable{
+public class Participant implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -37,11 +37,11 @@ public class Participant implements Serializable{
     private Structure structure;
 
     @ManyToMany
-    
     @JoinTable(
             name = "participant_formation",
             joinColumns = @JoinColumn(name = "participant_id"),
-            inverseJoinColumns = @JoinColumn(name = "formation_id"))
+            inverseJoinColumns = @JoinColumn(name = "formation_id")
+    )
     @JsonIgnore
     private Set<Formation> formations;
 
