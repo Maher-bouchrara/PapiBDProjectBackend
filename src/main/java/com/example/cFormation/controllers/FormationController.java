@@ -1,5 +1,7 @@
 package com.example.cFormation.controllers;
 
+import com.example.cFormation.dto.DomaineBudgetMensuelDto;
+import com.example.cFormation.dto.DomainePourcentageDTO;
 import com.example.cFormation.dto.FormationDTO;
 import com.example.cFormation.models.Formation;
 import com.example.cFormation.models.Participant;
@@ -98,8 +100,23 @@ public class FormationController {
 
     @GetMapping("/{formationId}/participants")
     public ResponseEntity<Set<Participant>> getFormationParticipants(
-            @PathVariable int formationId) {
+    		@PathVariable("formationId") int formationId) {
 
         return ResponseEntity.ok(formationService.getFormationParticipants(formationId));
+    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getFormationsCount() {
+        long count = formationService.countFormations();
+        return ResponseEntity.ok(count);
+    }
+    @GetMapping("/stats/domaines")
+    public ResponseEntity<List<DomainePourcentageDTO>> getStatsFormationsParDomaine() {
+        List<DomainePourcentageDTO> stats = formationService.getFormationsPourcentageByDomaine();
+        return ResponseEntity.ok(stats);
+    }
+    @GetMapping("/stats/budgets-mensuels-top3")
+    public ResponseEntity<List<DomaineBudgetMensuelDto>> getBudgetsMoyensParMois() {
+        List<DomaineBudgetMensuelDto> stats = formationService.getBudgetsMoyensParMoisTop3Domaines();
+        return ResponseEntity.ok(stats);
     }
 }

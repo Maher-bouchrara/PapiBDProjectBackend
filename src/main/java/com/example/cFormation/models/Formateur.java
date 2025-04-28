@@ -21,6 +21,15 @@ public class Formateur {
     private String prenom;
     private String email;
     private String tel;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employeur_id")

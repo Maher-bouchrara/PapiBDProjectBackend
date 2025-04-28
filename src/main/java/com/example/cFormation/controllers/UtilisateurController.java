@@ -47,9 +47,10 @@ public class UtilisateurController {
         @PutMapping("/{id}")
         public ResponseEntity<Utilisateur> updateUtilisateur(
                 @PathVariable int id,
-                @RequestBody Utilisateur utilisateurDetails) {
+                @RequestBody Utilisateur utilisateurDetails,
+                @RequestParam int roleId) {
 
-            return ResponseEntity.ok(utilisateurService.updateUtilisateur(id, utilisateurDetails));
+            return ResponseEntity.ok(utilisateurService.updateUtilisateur(id, utilisateurDetails , roleId));
         }
 
         // Suppression
@@ -65,6 +66,10 @@ public class UtilisateurController {
             return utilisateurService.getUtilisateursByRoleId(roleId);
         }
 
-
+    @GetMapping("/count")
+    public ResponseEntity<Long> getUtilisateursCount() {
+        long count = utilisateurService.countUtilisateurs();
+        return ResponseEntity.ok(count);
+    }
     }
 
