@@ -1,6 +1,7 @@
 package com.example.cFormation.controllers;
 
 import com.example.cFormation.dto.FormateurDTO;
+import com.example.cFormation.dto.FormateurStatsDto;
 import com.example.cFormation.models.Employeur;
 import com.example.cFormation.models.Formateur;
 import com.example.cFormation.services.FormateurService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/formateurs")
@@ -72,5 +74,14 @@ public class FormateurController {
     public List<Employeur> getAllEmployeurs() {
         return formateurService.getAllEmployeurs();
     }
-
+    @GetMapping("/count")
+    public ResponseEntity<Long> getFormateursCount() {
+        long count = formateurService.countFormateurs();
+        return ResponseEntity.ok(count);
+    }
+    @GetMapping("/top-3-details")
+    public ResponseEntity<List<FormateurStatsDto>> getTop3FormateursDetails() {
+        List<FormateurStatsDto> result = formateurService.getTop3FormateursWithDetails();
+        return ResponseEntity.ok(result);
+    }
 }

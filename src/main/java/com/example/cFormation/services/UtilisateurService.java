@@ -79,5 +79,7 @@ public class UtilisateurService {
         return utilisateurRepository.findByRole_Id(roleId);
     }
 
-
+    public long countUtilisateurs() {
+        return utilisateurRepository.count();
+    }
 }

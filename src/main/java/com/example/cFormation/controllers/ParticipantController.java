@@ -88,4 +88,8 @@ public class ParticipantController {
 
         return ResponseEntity.ok(participantService.getParticipantFormations(participantId));
     }
-}
+    @GetMapping("/count")
+    public ResponseEntity<Long> getParticipantsCount() {
+        long count = participantService.countParticipants();
+        return ResponseEntity.ok(count);
+    }}

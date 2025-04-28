@@ -1,6 +1,7 @@
 package com.example.cFormation.services;
 
 import com.example.cFormation.dto.FormateurDTO;
+import com.example.cFormation.dto.FormateurStatsDto;
 import com.example.cFormation.exception.ResourceNotFoundException;
 import com.example.cFormation.mapper.FormateurMapper;
 import com.example.cFormation.models.Formateur;
@@ -10,8 +11,10 @@ import com.example.cFormation.repositories.EmployeurRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FormateurService {
@@ -81,5 +84,21 @@ public class FormateurService {
     public List<Employeur> getAllEmployeurs() {
         return employeurRepository.findAll();
     }
+    public long countFormateurs() {
+        return formateurRepository.count();
+    }
 
+    public List<FormateurStatsDto> getTop3FormateursWithDetails() {
+        return formateurRepository.findTop3FormateursDetails().stream()
+                .map(result -> new FormateurStatsDto(
+                        (String) result[0],  // nom
+                        (String) result[1],  // prenom
+                        (String) result[2],  // email
+                        (String) result[3],  // tel
+                        (String) result[4],  // specialite (type)
+                        (String) result[5],  // employeur nom
+                        ((Number) result[6]).longValue()  // nb formations
+                ))
+                .collect(Collectors.toList());
+    }
 }

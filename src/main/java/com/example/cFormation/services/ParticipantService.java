@@ -11,6 +11,7 @@ import com.example.cFormation.repositories.ParticipantRepository;
 import com.example.cFormation.repositories.ProfileRepository;
 import com.example.cFormation.repositories.StructureRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -113,4 +114,8 @@ public class ParticipantService {
                 .orElseThrow(() -> new RuntimeException("Participant non trouvé"));
         return participant.getFormations();
     }
-}
+
+
+    public long countParticipants() {
+        return participantRepository.count();
+    }}
