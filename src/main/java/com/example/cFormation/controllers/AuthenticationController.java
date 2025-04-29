@@ -56,4 +56,26 @@ public class AuthenticationController {
         }
     }
 
+    @GetMapping("/userId")
+    public ResponseEntity<Map<String, Integer>> getUserId(@RequestHeader("Authorization") String authHeader) {
+        String token = extractToken(authHeader);
+        int userId = jwtUtil.extractUserId(token);
+        return ResponseEntity.ok(Map.of("userId", userId));
+    }
+
+    @GetMapping("/roleId")
+    public ResponseEntity<Map<String, Integer>> getRoleId(@RequestHeader("Authorization") String authHeader) {
+        String token = extractToken(authHeader);
+        int roleId = jwtUtil.extractRole(token);
+        return ResponseEntity.ok(Map.of("roleId", roleId));
+    }
+
+    // Helper method to clean up "Bearer " prefix
+    private String extractToken(String authHeader) {
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7); // Remove "Bearer " prefix
+        }
+        throw new IllegalArgumentException("Invalid Authorization header format");
+    }
+
 }

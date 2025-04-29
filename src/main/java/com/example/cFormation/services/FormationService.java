@@ -67,22 +67,22 @@ public class FormationService {
         return formationRepository.save(formation);
     }
 
-    public Formation updateFormation(int id, Formation formationDetails) {
+    public Formation updateFormation(int id, Formation formationDetails ,int formateurId, int domaineId) {
         Formation formation = formationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Formation non trouvée avec l'ID : " + id));
+        Formateur formateur = formateurRepository.findById(formateurId)
+                .orElseThrow(() -> new RuntimeException("Formateur non trouvé"));
+
+        Domaine domaine = domaineRepository.findById(domaineId)
+                .orElseThrow(() -> new RuntimeException("Domaine non trouvé"));
 
         formation.setTitre(formationDetails.getTitre());
         formation.setDate(formationDetails.getDate());
         formation.setDuree(formationDetails.getDuree());
         formation.setBudget(formationDetails.getBudget());
+        formation.setFormateur(formateur);
+        formation.setDomaine(domaine);
 
-        // Mise à jour des relations si nécessaire
-        if (formationDetails.getFormateur() != null) {
-            formation.setFormateur(formationDetails.getFormateur());
-        }
-        if (formationDetails.getDomaine() != null) {
-            formation.setDomaine(formationDetails.getDomaine());
-        }
 
         return formationRepository.save(formation);
     }

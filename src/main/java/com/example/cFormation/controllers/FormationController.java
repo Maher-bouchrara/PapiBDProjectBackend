@@ -35,10 +35,20 @@ public class FormationController {
         Formation savedFormation = formationService.createFormation(formation, formateurId, domaineId);
         return new ResponseEntity<>(savedFormation, HttpStatus.CREATED);
     }
+    // Mise à jour
+    @PutMapping("/{id}")
+    public ResponseEntity<Formation> updateFormation(
+            @PathVariable int id,
+            @RequestBody Formation formationDetails,
+            @RequestParam(name = "formateurId") int formateurId,
+            @RequestParam(name = "domaineId") int domaineId) {
+
+        return ResponseEntity.ok(formationService.updateFormation(id, formationDetails,formateurId, domaineId));
+    }
 
     // Récupération par ID
-    
-    
+
+
     @GetMapping("/{id}")
     public ResponseEntity<FormationDTO> getFormationById(@RequestParam("id") int id) {
         FormationDTO formationDTO = formationService.getFormationDTOById(id);
@@ -52,14 +62,6 @@ public class FormationController {
         return formationService.getAllFormations();
     }
 
-    // Mise à jour
-    @PutMapping("/{id}")
-    public ResponseEntity<Formation> updateFormation(
-            @PathVariable int id,
-            @RequestBody Formation formationDetails) {
-
-        return ResponseEntity.ok(formationService.updateFormation(id, formationDetails));
-    }
 
     // Suppression
     @DeleteMapping("/{id}")
